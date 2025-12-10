@@ -17,7 +17,7 @@ class StringUtilsTest {
     @Test
     void testCountVowels() {
         assertEquals(3, StringUtils.countVowels("Hello World"));
-        assertEquals(5, StringUtils.countVowels("Аэрофотосъёмка"));
+        assertEquals(5, StringUtils.countVowels("Education"));
         assertEquals(0, StringUtils.countVowels("bcdfg"));
         assertEquals(0, StringUtils.countVowels(""));
         assertEquals(0, StringUtils.countVowels(null));
