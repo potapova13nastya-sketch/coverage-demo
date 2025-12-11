@@ -42,7 +42,24 @@ public class Calculator {
     public boolean isEven(int number) {
         return number % 2 == 0;
     }
-    
+
+    /**
+     * Возведение в степень (только для неотрицательных показателей)
+     */
+    public long power(int base, int exponent) {
+        if (exponent < 0) {
+            throw new IllegalArgumentException("Показатель степени не может быть отрицательным");
+        }
+        if (exponent == 0) {
+            return 1;
+        }
+        long result = 1;
+        for (int i = 0; i < exponent; i++) {
+            result *= base;
+        }
+        return result;
+    }
+
     /**
      * Факториал числа
      */

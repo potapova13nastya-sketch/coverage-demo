@@ -63,7 +63,24 @@ class CalculatorTest {
         assertEquals(120, calculator.factorial(5));
         assertEquals(3628800, calculator.factorial(10));
     }
+
+    @Test
+    void testPower() {
+        assertEquals(1, calculator.power(5, 0));
+        assertEquals(5, calculator.power(5, 1));
+        assertEquals(25, calculator.power(5, 2));
+        assertEquals(8, calculator.power(2, 3));
+    }
     
+    @Test
+    void testPowerNegativeExponent() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.power(5, -2);
+        });
+        assertEquals("Показатель степени не может быть отрицательным", 
+                    exception.getMessage());
+    }
+
     @Test
     void testFactorialNegative() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
