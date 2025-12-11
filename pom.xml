@@ -28,6 +28,10 @@
         <sonar.organization>potapova13nastya-sketch</sonar.organization>
         <sonar.projectKey>potapova13nastya-sketch_coverage-demo</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.sources>src/main/java</sonar.sources>
+        <sonar.tests>src/test/java</sonar.tests>
+        <sonar.java.binaries>target/classes</sonar.java.binaries>
+        <sonar.java.libraries>target/*.jar</sonar.java.libraries>
     </properties>
     
     <dependencies>
