@@ -73,3 +73,26 @@ class CalculatorTest {
                     exception.getMessage());
     }
 }
+
+    @Test
+    void testAverage() {
+        int[] numbers = {1, 2, 3, 4, 5};
+        assertEquals(3.0, calculator.average(numbers), 0.001);
+    }
+    
+    @Test
+    void testAverageEmptyArray() {
+        int[] emptyArray = {};
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.average(emptyArray);
+        });
+        assertEquals("Массив не может быть пустым или null", exception.getMessage());
+    }
+    
+    @Test
+    void testAverageNull() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.average(null);
+        });
+        assertEquals("Массив не может быть пустым или null", exception.getMessage());
+    }

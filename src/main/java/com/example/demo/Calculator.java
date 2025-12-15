@@ -62,3 +62,17 @@ public class Calculator {
 }
 // Trigger second SonarCloud analysis - 2025-12-11 11:08
 // Last analysis: 2025-12-11 11:13
+
+    /**
+     * Вычисляет среднее значение массива чисел
+     */
+    public double average(int[] numbers) {
+        if (numbers == null || numbers.length == 0) {
+            throw new IllegalArgumentException("Массив не может быть пустым или null");
+        }
+        int sum = 0;
+        for (int num : numbers) {
+            sum += num;
+        }
+        return (double) sum / numbers.length;
+    }
