@@ -80,47 +80,35 @@ jobs:
         echo "## Coverage: $COVERAGE%" >> $GITHUB_STEP_SUMMARY
         
   incremental-coverage-check:
-  name: Incremental Coverage Check
-  runs-on: ubuntu-latest
-  if: github.event_name == 'pull_request'
-  
-  steps:
-  - name: Checkout code
-    uses: actions/checkout@v3
-    with:
-      fetch-depth: 0
-  
-  - name: Get changed files
-    id: changed-files
-    uses: tj-actions/changed-files@v35
-    with:
-      base_sha: ${{ github.event.pull_request.base.sha }}
-      head_sha: ${{ github.event.pull_request.head.sha }}
-  
-  - name: Show changed files
-    run: |
-      echo "=== Changed files in this PR ==="
-      echo "${{ steps.changed-files.outputs.all_changed_files }}"
-      echo ""
-      
-      # Проверяем конкретно Java файлы
-      CHANGED_JAVA=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep '\.java$' || true)
-      if [ -n "$CHANGED_JAVA" ]; then
-        echo "Found Java changes:"
-        echo "$CHANGED_JAVA"
-      else
-        echo "No Java files changed"
-      fi
-  
-  - name: Run tests for changed Java files
-    run: |
-      CHANGED_JAVA=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep '\.java$' || true)
-      
-      if [ -n "$CHANGED_JAVA" ]; then
-        echo "Running tests for changed Java files..."
-        echo "Test will cover: Calculator.java"
-        mvn test jacoco:report -B
-        echo "Tests completed for changed files"
-      else
-        echo "Skipping tests - no Java files changed in PR"
-      fi
+    name: Incremental Coverage Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v35
+      with:
+        base_sha: ${{ github.event.pull_request.base.sha }}
+        head_sha: ${{ github.event.pull_request.head.sha }}
+    
+    - name: Show changed files
+      run: |
+        echo "=== Changed files in this PR ==="
+        echo "${{ steps.changed-files.outputs.all_changed_files }}"
+    
+    - name: Run tests for changed Java files
+      run: |
+        CHANGED_FILES="${{ steps.changed-files.outputs.all_changed_files }}"
+        
+        if echo "$CHANGED_FILES" | grep -q '\.java$'; then
+          echo "Running tests for changed Java files..."
+          mvn test jacoco:report -B
+        else
+          echo "No Java files changed in this PR"
+        fi
