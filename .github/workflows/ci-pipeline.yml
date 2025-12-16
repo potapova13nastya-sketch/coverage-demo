@@ -60,41 +60,62 @@ jobs:
         
     - name: SonarCloud Scan
       env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: |
-        mvn sonar:sonar \
-          -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
-          -Dsonar.projectKey=${{ secrets.SONAR_ORGANIZATION }}_coverage-demo \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.qualitygate.wait=true \
-          -B
+    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  run: |
+    mvn sonar:sonar \
+      -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
+      -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
+      -Dsonar.host.url=https://sonarcloud.io \
+      -Dsonar.qualitygate.wait=true \
+      -Dsonar.scm.provider=git \
+      # Ключевые параметры для анализа PR:
+      -Dsonar.pullrequest.key=${{ github.event.pull_request.number }} \
+      -Dsonar.pullrequest.branch=${{ github.event.pull_request.head.ref }} \
+      -Dsonar.pullrequest.base=${{ github.event.pull_request.base.ref }} \
+      -B
           
    # - name: Check coverage threshold
    #   run: mvn jacoco:check -B
 
   incremental-coverage-check:
-    name: Incremental Coverage Check
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    
-    steps:
-    - name: Checkout code with full history
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-    
-    - name: Cache Maven dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
+  name: Incremental Coverage Check
+  runs-on: ubuntu-latest
+  if: github.event_name == 'pull_request'
+  
+  steps:
+  - name: Checkout code
+    uses: actions/checkout@v3
+    with:
+      fetch-depth: 0  # Важно для анализа истории Git
+  
+  - name: Find and list changed Java files
+    id: changed-files
+    run: |
+      echo "=== Changed files in this PR ==="
+      # Команда, которая точно находит разницу между ветками
+      git diff --name-only origin/${{ github.event.pull_request.base.ref }} HEAD | grep '\.java$' > changed_java_files.txt || echo ""
+      
+      echo "Список измененных .java файлов:"
+      cat changed_java_files.txt || echo "Файл со списком не создан (возможно, нет изменений)."
+      
+      COUNT=$(cat changed_java_files.txt 2>/dev/null | wc -l || echo 0)
+      echo "Найдено изменений: $COUNT"
+      echo "count=$COUNT" >> $GITHUB_OUTPUT
+  
+  - name: Verify changes and generate report
+    run: |
+      echo "=== Verification ==="
+      if [ ! -f "changed_java_files.txt" ] || [ ! -s "changed_java_files.txt" ]; then
+        echo "ℹ️ В этом PR нет изменений в Java-файлах. Проверка покрытия нового кода не требуется."
+        exit 0
+      fi
+      
+      echo "Измененные файлы, требующие проверки покрытия:"
+      cat changed_java_files.txt
+      echo ""
+      echo "✅ Задача обнаружена: система идентифицировала код, для которого необходимо проверить покрытие тестами."
+      echo "📊 Детальный анализ покрытия именно для этих изменений выполняется в отдельном шаге 'SonarCloud Scan'."
+      echo "🔗 Результат с метриками 'New Code' будет доступен в интерфейсе SonarCloud."
     
     - name: Get changed Java files
       id: changed-files
