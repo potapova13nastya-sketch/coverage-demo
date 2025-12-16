@@ -45,7 +45,7 @@ class CalculatorTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             calculator.divide(5, 0);
         });
-        assertEquals("Делитель не может быть нулем", exception.getMessage());
+        assertEquals("Divisor cannot be zero", exception.getMessage());
     }
     
     @Test
@@ -69,11 +69,10 @@ class CalculatorTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             calculator.factorial(-5);
         });
-        assertEquals("Факториал определен только для неотрицательных чисел", 
+        assertEquals("Factorial is defined only for non-negative numbers", 
                     exception.getMessage());
     }
-}
-
+    
     @Test
     void testAverage() {
         int[] numbers = {1, 2, 3, 4, 5};
@@ -86,7 +85,7 @@ class CalculatorTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             calculator.average(emptyArray);
         });
-        assertEquals("Массив не может быть пустым или null", exception.getMessage());
+        assertEquals("Array cannot be empty or null", exception.getMessage());
     }
     
     @Test
@@ -94,5 +93,30 @@ class CalculatorTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             calculator.average(null);
         });
-        assertEquals("Массив не может быть пустым или null", exception.getMessage());
+        assertEquals("Array cannot be empty or null", exception.getMessage());
     }
+    
+    @Test
+    void testSquare() {
+        assertEquals(4.0, calculator.square(2.0), 0.001);
+        assertEquals(9.0, calculator.square(3.0), 0.001);
+        assertEquals(0.0, calculator.square(0.0), 0.001);
+        assertEquals(6.25, calculator.square(2.5), 0.001);
+    }
+    
+    @Test
+    void testSquareRoot() {
+        assertEquals(2.0, calculator.squareRoot(4.0), 0.001);
+        assertEquals(3.0, calculator.squareRoot(9.0), 0.001);
+        assertEquals(0.0, calculator.squareRoot(0.0), 0.001);
+        assertEquals(1.5, calculator.squareRoot(2.25), 0.001);
+    }
+    
+    @Test
+    void testSquareRootNegative() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.squareRoot(-4.0);
+        });
+        assertEquals("Cannot calculate square root of negative number", exception.getMessage());
+    }
+}

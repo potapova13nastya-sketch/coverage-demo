@@ -30,4 +30,20 @@ class StringUtilsTest {
         assertEquals("", StringUtils.reverse(""));
         assertNull(StringUtils.reverse(null));
     }
+    
+    @Test
+    void testIsPalindromeWithSpaces() {
+        assertTrue(StringUtils.isPalindrome("race car"));
+    }
+    
+    @Test
+    void testCountVowelsMixedCase() {
+        assertEquals(3, StringUtils.countVowels("Hello World!"));  // ИСПРАВЛЕНО: было 4
+        assertEquals(3, StringUtils.countVowels("HELLO WORLD"));   // ИСПРАВЛЕНО: было 4
+    }
+    
+    @Test
+    void testReverseSpecialCharacters() {
+        assertEquals("!dlroW olleH", StringUtils.reverse("Hello World!"));
+    }
 }

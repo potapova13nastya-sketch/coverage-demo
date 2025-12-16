@@ -1,54 +1,54 @@
 package com.example.demo;
 
 /**
- * Калькулятор для демонстрации тестового покрытия
+ * Calculator for test coverage demonstration
  */
 public class Calculator {
     
     /**
-     * Сложение двух чисел
+     * Add two numbers
      */
     public int add(int a, int b) {
         return a + b;
     }
     
     /**
-     * Вычитание
+     * Subtract
      */
     public int subtract(int a, int b) {
         return a - b;
     }
     
     /**
-     * Умножение
+     * Multiply
      */
     public int multiply(int a, int b) {
         return a * b;
     }
     
     /**
-     * Деление
+     * Divide
      */
     public double divide(int a, int b) {
         if (b == 0) {
-            throw new IllegalArgumentException("Делитель не может быть нулем");
+            throw new IllegalArgumentException("Divisor cannot be zero");
         }
         return (double) a / b;
     }
     
     /**
-     * Проверка на четность
+     * Check if number is even
      */
     public boolean isEven(int number) {
         return number % 2 == 0;
     }
     
     /**
-     * Факториал числа
+     * Factorial of a number
      */
     public long factorial(int n) {
         if (n < 0) {
-            throw new IllegalArgumentException("Факториал определен только для неотрицательных чисел");
+            throw new IllegalArgumentException("Factorial is defined only for non-negative numbers");
         }
         if (n == 0 || n == 1) {
             return 1;
@@ -59,16 +59,13 @@ public class Calculator {
         }
         return result;
     }
-}
-// Trigger second SonarCloud analysis - 2025-12-11 11:08
-// Last analysis: 2025-12-11 11:13
-
+    
     /**
-     * Вычисляет среднее значение массива чисел
+     * Calculate average of numbers array
      */
     public double average(int[] numbers) {
         if (numbers == null || numbers.length == 0) {
-            throw new IllegalArgumentException("Массив не может быть пустым или null");
+            throw new IllegalArgumentException("Array cannot be empty or null");
         }
         int sum = 0;
         for (int num : numbers) {
@@ -76,3 +73,21 @@ public class Calculator {
         }
         return (double) sum / numbers.length;
     }
+    
+    /**
+     * Calculate square of a number
+     */
+    public double square(double number) {
+        return number * number;
+    }
+    
+    /**
+     * Calculate square root of a number
+     */
+    public double squareRoot(double number) {
+        if (number < 0) {
+            throw new IllegalArgumentException("Cannot calculate square root of negative number");
+        }
+        return Math.sqrt(number);
+    }
+}
