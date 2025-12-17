@@ -45,7 +45,7 @@ class CalculatorTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             calculator.divide(5, 0);
         });
-        assertEquals("Делитель не может быть нулем", exception.getMessage());
+        assertEquals("Divisor cannot be zero", exception.getMessage());
     }
     
     @Test
@@ -69,7 +69,99 @@ class CalculatorTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             calculator.factorial(-5);
         });
-        assertEquals("Факториал определен только для неотрицательных чисел", 
+        assertEquals("Factorial is defined only for non-negative numbers", 
                     exception.getMessage());
+    }
+    
+    @Test
+    void testAverage() {
+        int[] numbers = {1, 2, 3, 4, 5};
+        assertEquals(3.0, calculator.average(numbers), 0.001);
+    }
+    
+    @Test
+    void testAverageEmptyArray() {
+        int[] emptyArray = {};
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.average(emptyArray);
+        });
+        assertEquals("Array cannot be empty or null", exception.getMessage());
+    }
+    
+    @Test
+    void testAverageNull() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.average(null);
+        });
+        assertEquals("Array cannot be empty or null", exception.getMessage());
+    }
+    
+    @Test
+    void testSquare() {
+        assertEquals(4.0, calculator.square(2.0), 0.001);
+        assertEquals(9.0, calculator.square(3.0), 0.001);
+        assertEquals(0.0, calculator.square(0.0), 0.001);
+        assertEquals(6.25, calculator.square(2.5), 0.001);
+    }
+    
+    @Test
+    void testSquareRoot() {
+        assertEquals(2.0, calculator.squareRoot(4.0), 0.001);
+        assertEquals(3.0, calculator.squareRoot(9.0), 0.001);
+        assertEquals(0.0, calculator.squareRoot(0.0), 0.001);
+        assertEquals(1.5, calculator.squareRoot(2.25), 0.001);
+    }
+    
+    @Test
+    void testSquareRootNegative() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.squareRoot(-4.0);
+        });
+        assertEquals("Cannot calculate square root of negative number", exception.getMessage());
+    }
+        @Test
+    void testPower() {
+        // Positive exponent
+        assertEquals(8.0, calculator.power(2.0, 3), 0.001);
+        assertEquals(1.0, calculator.power(5.0, 0), 0.001);
+        assertEquals(0.25, calculator.power(2.0, -2), 0.001);
+        
+        // Decimal base
+        assertEquals(6.25, calculator.power(2.5, 2), 0.001);
+    }
+    
+    @Test
+    void testPowerWithZeroBase() {
+        assertEquals(0.0, calculator.power(0.0, 3), 0.001);
+        assertEquals(1.0, calculator.power(0.0, 0), 0.001);
+    }
+    
+    @Test
+    void testFindMax() {
+        int[] numbers = {3, 7, 2, 9, 1};
+        assertEquals(9, calculator.findMax(numbers));
+        
+        int[] singleElement = {5};
+        assertEquals(5, calculator.findMax(singleElement));
+        
+        int[] negativeNumbers = {-3, -7, -2, -9};
+        assertEquals(-2, calculator.findMax(negativeNumbers));
+    }
+    
+    @Test
+    void testFindMaxEmptyArray() {
+        int[] emptyArray = {};
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.findMax(emptyArray);
+        });
+        assertEquals("Array cannot be empty or null", exception.getMessage());
+    }
+    
+    @Test
+    void testFindMaxNull() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.findMax(null);
+        });
+        assertEquals("Array cannot be empty or null", exception.getMessage());
     }
 }

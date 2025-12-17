@@ -1,12 +1,12 @@
 package com.example.demo;
 
 /**
- * Утилиты для работы со строками
+ * String utilities for demonstration
  */
 public class StringUtils {
     
     /**
-     * Проверка, является ли строка палиндромом
+     * Check if string is palindrome
      */
     public static boolean isPalindrome(String str) {
         if (str == null) {
@@ -18,14 +18,14 @@ public class StringUtils {
     }
     
     /**
-     * Подсчет гласных в строке
+     * Count vowels in string (English only)
      */
     public static int countVowels(String str) {
         if (str == null || str.isEmpty()) {
             return 0;
         }
         int count = 0;
-        String vowels = "aeiouаеёиоуыэюя";
+        String vowels = "aeiouAEIOU";
         String lowerStr = str.toLowerCase();
         
         for (char c : lowerStr.toCharArray()) {
@@ -37,7 +37,7 @@ public class StringUtils {
     }
     
     /**
-     * Обратная строка
+     * Reverse string
      */
     public static String reverse(String str) {
         if (str == null) {
