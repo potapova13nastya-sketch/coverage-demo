@@ -90,4 +90,46 @@ public class Calculator {
         }
         return Math.sqrt(number);
     }
-}
+        /**
+     * Calculate power of a number (a^b)
+     * @param base base number
+     * @param exponent exponent
+     * @return result of base^exponent
+     */
+    public double power(double base, int exponent) {
+        if (exponent == 0) {
+            return 1;
+        }
+        
+        if (exponent < 0) {
+            return 1 / power(base, -exponent);
+        }
+        
+        double result = 1;
+        for (int i = 0; i < exponent; i++) {
+            result *= base;
+        }
+        return result;
+    }
+    
+    /**
+     * Find maximum value in array
+     * @param numbers array of integers
+     * @return maximum value
+     */
+    public int findMax(int[] numbers) {
+        if (numbers == null || numbers.length == 0) {
+            throw new IllegalArgumentException("Array cannot be empty or null");
+        }
+        
+        int max = numbers[0];
+        for (int i = 1; i < numbers.length; i++) {
+            if (numbers[i] > max) {
+                max = numbers[i];
+            }
+        }
+        return max;
+    }
+  }
+    
+

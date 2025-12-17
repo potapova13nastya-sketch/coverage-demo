@@ -119,4 +119,49 @@ class CalculatorTest {
         });
         assertEquals("Cannot calculate square root of negative number", exception.getMessage());
     }
+        @Test
+    void testPower() {
+        // Positive exponent
+        assertEquals(8.0, calculator.power(2.0, 3), 0.001);
+        assertEquals(1.0, calculator.power(5.0, 0), 0.001);
+        assertEquals(0.25, calculator.power(2.0, -2), 0.001);
+        
+        // Decimal base
+        assertEquals(6.25, calculator.power(2.5, 2), 0.001);
+    }
+    
+    @Test
+    void testPowerWithZeroBase() {
+        assertEquals(0.0, calculator.power(0.0, 3), 0.001);
+        assertEquals(1.0, calculator.power(0.0, 0), 0.001);
+    }
+    
+    @Test
+    void testFindMax() {
+        int[] numbers = {3, 7, 2, 9, 1};
+        assertEquals(9, calculator.findMax(numbers));
+        
+        int[] singleElement = {5};
+        assertEquals(5, calculator.findMax(singleElement));
+        
+        int[] negativeNumbers = {-3, -7, -2, -9};
+        assertEquals(-2, calculator.findMax(negativeNumbers));
+    }
+    
+    @Test
+    void testFindMaxEmptyArray() {
+        int[] emptyArray = {};
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.findMax(emptyArray);
+        });
+        assertEquals("Array cannot be empty or null", exception.getMessage());
+    }
+    
+    @Test
+    void testFindMaxNull() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.findMax(null);
+        });
+        assertEquals("Array cannot be empty or null", exception.getMessage());
+    }
 }

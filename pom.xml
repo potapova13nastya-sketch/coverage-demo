@@ -31,17 +31,30 @@
         <sonar.sources>src/main/java</sonar.sources>
         <sonar.tests>src/test/java</sonar.tests>
 
+        <!-- SonarCloud Pull Request analysis -->
+        <sonar.pullrequest.provider>github</sonar.pullrequest.provider>
+        <sonar.pullrequest.github.repository>potapova13nastya-sketch/coverage-demo</sonar.pullrequest.github.repository>
+
         <!-- Incremental analysis properties -->
         <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
         <sonar.scm.disabled>false</sonar.scm.disabled>
         <sonar.scm.provider>git</sonar.scm.provider>
+
+        <!-- Coverage exclusions -->
         <sonar.coverage.exclusions>
             **/*Test.java,
             **/test/**,
-            **/*Application.java
+            **/*Application.java,
+            **/target/**
         </sonar.coverage.exclusions>
+    
+        <!-- JaCoCo report path -->
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-    </properties>
+    
+        <!-- Language -->
+        <sonar.language>java</sonar.language>
+        <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+   </properties>
 
     <dependencies>
         <!-- JUnit 5 -->
